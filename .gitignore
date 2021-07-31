@@ -1,3 +1,8 @@
+# Training and validation large datasets
+resources/fen_files
+resources/training_dataset
+resources/validation_dataset
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
