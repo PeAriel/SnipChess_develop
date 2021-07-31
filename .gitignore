@@ -3,6 +3,9 @@ resources/fen_files
 resources/training_dataset
 resources/validation_dataset
 
+# Mac files
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
