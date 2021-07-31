@@ -9,8 +9,7 @@ resources/validation_dataset
 
 # Mac files
 .DS_Store
-*/.DS_Store
-*/*/.DS_Store
+resources/.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
