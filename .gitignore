@@ -1,5 +1,9 @@
 # Training and validation large datasets
-resources/fen_files
+resources/fen_files/unique00.fen
+resources/fen_files/unique01.fen
+resources/fen_files/unique02.fen
+resources/fen_files/unique03.fen
+resources/fen_files/unique04.fen
 resources/training_dataset
 resources/validation_dataset
 
