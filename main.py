@@ -53,6 +53,8 @@ def representation2fen(rep):
     pass
 
 def main():
+    if torch.cuda.is_available():
+        os.system('echo Running on GPU.\n')
     path_to_training_data = os.getcwd() + '/resources/training_dataset'
     path_to_validation_data = os.getcwd() + '/resources/validation_dataset'
 
