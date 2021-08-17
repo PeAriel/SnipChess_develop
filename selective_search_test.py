@@ -117,10 +117,10 @@ def main():
             if args.verbosity:
                 print('Margin deviation = %d. Now box size = %d' % (condition, box_size))
                 if idx % 10 == 0:
-                    print('Reached 10 iterations. Now xp = %d' % xp)
+                    print('Reached %d iterations. Now xp = %d' % (idx, xp))
             continue
         else:
-            break
+            breaks
         # Now construct the new 64 fixed rects
     idx = 0
     for i in range(8):
