@@ -120,7 +120,7 @@ def main():
                     print('Reached %d iterations. Now xp = %d' % (idx, xp))
             continue
         else:
-            breaks
+            break
         # Now construct the new 64 fixed rects
     idx = 0
     for i in range(8):
