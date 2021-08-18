@@ -12,7 +12,7 @@ def random_ints_list(max_int, length):
 
     return rand_ints
 
-def generate_pngs(themes, train=None, valid=None, verbosity=False):
+def generate_pngs(themes, train=None, valid=None, square_size=80, verbosity=False):
     if type(themes) is str:
         themes = [themes]
 
@@ -29,7 +29,7 @@ def generate_pngs(themes, train=None, valid=None, verbosity=False):
                 random_lines_train = tqdm(random_lines_train, desc='Training images completed: ')
             for line in random_lines_train:
                 fen = file_lines[line].split()[0]
-                board = DrawBoard(fen, theme)
+                board = DrawBoard(fen, theme, square_size)
                 output_path = os.getcwd() + '/resources/training_dataset/{}'.format('S'.join(fen.split('/')))
                 board.save_board(output_path)
         if valid:
@@ -38,12 +38,12 @@ def generate_pngs(themes, train=None, valid=None, verbosity=False):
                 random_lines_valid = tqdm(random_lines_valid, desc='Validation images completed: ')
             for line in random_lines_valid:
                 fen = file_lines[line].split()[0]
-                board = DrawBoard(fen, theme)
+                board = DrawBoard(fen, theme, square_size)
                 output_path = os.getcwd() + '/resources/validation_dataset/{}'.format('S'.join(fen.split('/')))
                 board.save_board(output_path)
 
-def gen_starting_position(output_path):
-    board = DrawBoard('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR', 'classic', square_size=40)
+def gen_starting_position(output_path, square_size=80):
+    board = DrawBoard('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR', 'classic', square_size)
     board.save_board(output_path)
 
 
