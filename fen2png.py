@@ -6,6 +6,10 @@ PIECES_DICT = {i: ("b" if i.islower() else "w") + i.lower() for i in PIECES}
 RESOURCES = "resources/"
 
 def is_int(val):
+    """
+    checks if a string represents an integer
+    :param val: single str charachter, e.g. 's'.
+    """
     try:
         val = int(val)
         return True
