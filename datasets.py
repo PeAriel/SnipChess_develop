@@ -76,3 +76,38 @@ class ChessBoardsDataset(Dataset):
             y = y.cuda()
 
         return x, y
+
+class PiecesDataset(Dataset):
+    def __init__(self, data_dir):
+        labels_dict = {'e': 0,
+                       'br': 1,
+                       'bb': 2,
+                       'bn': 3,
+                       'bq': 4,
+                       'bk': 5,
+                       'bp': 6,
+                       'wr': 7,
+                       'wb': 8,
+                       'wn': 9,
+                       'wq': 10,
+                       'wk': 11,
+                       'wp': 12}
+        self.data_dir = data_dir
+        self.piece_png = os.listdir(data_dir)
+        self.labels = torch.LongTensor([labels_dict.get(piece.split('_')[0]) for piece in self.piece_png])
+
+    def __len__(self):
+        return len(self.piece_png)
+
+    def __getitem__(self, idx):
+        img_path = self.data_dir + '/' + self.piece_png[idx]
+        img = Image.open(img_path)
+
+        x = transforms.ToTensor()(img)
+        y = self.labels[idx]
+
+        if torch.cuda.is_available():
+            x = x.cuda()
+            y = y.cuda()
+
+        return x, y
