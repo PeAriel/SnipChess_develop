@@ -1,4 +1,4 @@
-from dataloader import ChessBoardsDataset
+from datasets import ChessBoardsDataset
 from torch.utils.data import DataLoader
 from model import ChessConvNet
 
