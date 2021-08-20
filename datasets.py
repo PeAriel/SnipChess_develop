@@ -1,10 +1,12 @@
 from fen2png import is_int
 
 import torch
+import numpy as np
 from torch.utils.data import Dataset
 from torchvision import transforms
 from PIL import Image
 import os
+import cv2
 
 
 def fens2representations(fens):
@@ -101,9 +103,9 @@ class PiecesDataset(Dataset):
 
     def __getitem__(self, idx):
         img_path = self.data_dir + '/' + self.piece_png[idx]
-        img = Image.open(img_path)
+        img = cv2.imread(img_path)
 
-        x = transforms.ToTensor()(img)
+        x = torch.FloatTensor(np.moveaxis(img, -1, 0))
         y = self.labels[idx]
 
         if torch.cuda.is_available():
