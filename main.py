@@ -1,4 +1,4 @@
-from datasets import ChessBoardsDataset
+from datasets import ChessBoardsDataset, PiecesDataset
 from torch.utils.data import DataLoader
 from model import ChessConvNet
 
@@ -40,8 +40,9 @@ def compute_accuracy_and_loss(loss_func, dataloader, net):
 
             prediction = net(data)
             loss += loss_func(prediction, target).item()
-            correct += len(torch.where(prediction.int() == target.int())[0])
-            # total += len(data)
+            pred = torch.argmax(prediction, dim=1)
+            correct += len(torch.where(pred == target)[0])
+            total += len(target)
 
     total = nbatch * (8 ** 2 + 7)
     accuracy = correct / total
