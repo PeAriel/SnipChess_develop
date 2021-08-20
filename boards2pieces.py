@@ -3,8 +3,8 @@ import cv2
 import numpy as np
 from random import randint
 from fen2png import PIECES_DICT, is_int
+from tqdm import tqdm
 
-PIECES_DICT['e'] = 'e'
 
 def extand_name(fen_list):
     """
@@ -23,6 +23,7 @@ def extand_name(fen_list):
     return fen_list
 
 def board2peices(path, sft=20):
+    PIECES_DICT['e'] = 'e'
     """
     given the *absolute* path to the folder containing the boards, this function writes
     each square as a separate png. It also adds a random shift to the squares to include
@@ -32,7 +33,7 @@ def board2peices(path, sft=20):
     if not os.path.isdir(path + '/pieces'):
         os.mkdir(path + '/pieces')
 
-    for b, board in enumerate(boards_list):
+    for b, board in enumerate(tqdm(boards_list)):
         if board[0] == '.' or board == 'pieces':
             continue
         name = extand_name(board.split('.')[0].split('S'))
