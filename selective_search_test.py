@@ -40,7 +40,7 @@ def main():
     cv2.setNumThreads(4)
 
     cvimage = cv2.imread(args.image)
-    new_height = 400
+    new_height = 640
     new_width = int(cvimage.shape[1]*new_height/cvimage.shape[0])
     cvimage = cv2.resize(cvimage, (new_width, new_height))
 
