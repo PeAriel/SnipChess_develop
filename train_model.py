@@ -38,6 +38,7 @@ def compute_accuracy_and_loss(loss_func, dataloader, net):
     return accuracy, loss
 
 def main():
+
     if torch.cuda.is_available():
         os.system('echo Running on GPU.\n')
     path_to_training_data = os.getcwd() + '/resources/training_dataset/pieces'
@@ -51,12 +52,16 @@ def main():
 
     net = ChessConvNet()
     loss_function = CrossEntropyLoss()
-    optimizer = Adam(net.parameters(), lr=0.001)
+    optimizer = Adam(net.parameters(), lr=0.0001)
+
+    if 'trained_model.pt' in os.listdir():
+        net.load_state_dict(torch.load('trained_model.pt'), strict=False)
+        print('Parameters were loaded successfully!')
 
     if torch.cuda.is_available():
         net.cuda()
 
-    n_epochs = 50
+    n_epochs = 100
     training_loss_vs_epoch = []
     validation_loss_vs_epoch = []
     training_acc_vs_epoch = []
