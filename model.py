@@ -7,35 +7,40 @@ class ChessConvNet(Module):
         self.in_channels = 3
         self.out_vector_length = 13
 
-        self.features = Sequential(
-            Conv2d(self.in_channels, 10, kernel_size=(3, 3), padding=(1, 1), stride=(1, 1)),
-            ReLU(inplace=True),
-            Conv2d(10, 20, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
-            ReLU(inplace=True),
-            Conv2d(20, 20, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
-            ReLU(inplace=True),
-            Conv2d(20, 10, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
-            ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False),
-            Conv2d(10, 10, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
-            ReLU(inplace=True),
-            MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
-        )
+        self.relu = ReLU(inplace=True)
+        self.maxpool1 = MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+        self.maxpool2 = MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
 
-        self.classifier = Sequential(
-            Linear(in_features=4000, out_features=500, bias=True),
-            ReLU(inplace=True),
-            Linear(in_features=500, out_features=500, bias=True),
-            ReLU(inplace=True),
-            Linear(in_features=500, out_features=13, bias=True),
-        )
+        self.conv1 = Conv2d(self.in_channels, 10, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        self.conv2 = Conv2d(10, 20, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        self.conv3 = Conv2d(20, 20, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        self.conv4 = Conv2d(20, 10, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        self.conv5 = Conv2d(10, 10, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
 
+        self.linear1 = Linear(in_features=4000, out_features=500, bias=True)
+        self.linear2 = Linear(in_features=500, out_features=500, bias=True)
+        self.linear3 = Linear(in_features=500, out_features=13, bias=True)
 
 
     def forward(self, x):
-        out = self.features(x)
+        out = self.conv1(x)
+        out = self.relu(out)
+        out = self.conv2(out)
+        out = self.relu(out)
+        out = self.conv3(out)
+        out = self.relu(out)
+        out = self.conv4(out)
+        out = self.relu(out)
+        out = self.maxpool1(out)
+        out = self.conv5(out)
+        out = self.relu(out)
+        out = self.maxpool2(out)
+
         out = flatten(out, 1)
-        out = self.classifier(out)
+
+        out = self.linear1(out)
+        out = self.linear2(out)
+        out = self.linear3(out)
 
         return out
 
