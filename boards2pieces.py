@@ -22,18 +22,21 @@ def extand_name(fen_list):
             jdx += 1
     return fen_list
 
-def board2peices(path, sft=20):
+def board2peices(path, reduce=None, sft=20):
     PIECES_DICT['e'] = 'e'
     """
     given the *absolute* path to the folder containing the boards, this function writes
     each square as a separate png. It also adds a random shift to the squares to include
     some data from adjacent squares. To disable the shift, input sft=0.
+    :parm reduce: int. Limits the number of black and white pawns, as well as empty
+                  squares (from all boards) to this number.
     """
     boards_list = os.listdir(path)
     if not os.path.isdir(path + '/pieces'):
         os.mkdir(path + '/pieces')
 
     for b, board in enumerate(tqdm(boards_list)):
+        count_dict = {'e': 0, 'bp': 0, 'wp': 0}
         if board[0] == '.' or board == 'pieces':
             continue
         name = extand_name(board.split('.')[0].split('S'))
@@ -55,13 +58,20 @@ def board2peices(path, sft=20):
                 piece_img = cv2.cvtColor(piece_img, cv2.COLOR_BGR2GRAY)  # convert to gray scale
 
                 piece_name = PIECES_DICT.get(name[i][j])
+                if reduce:
+                    if piece_name in count_dict:
+                        count_dict[piece_name] += 1
+                        if count_dict[piece_name] <= reduce:
+                            cv2.imwrite(path + '/pieces/%s_%d%d%d.png' % (piece_name, b, i, j), piece_img)
+                        else:
+                            continue
                 cv2.imwrite(path + '/pieces/%s_%d%d%d.png' % (piece_name, b, i, j), piece_img)
 
 def main():
     training_path = os.getcwd() + '/resources/training_dataset'
     validation_path = os.getcwd() + '/resources/validation_dataset'
-    board2peices(training_path)
-    board2peices(validation_path)
+    board2peices(training_path, reduce=5)
+    board2peices(validation_path, reduce=10)
 
 
 
