@@ -49,7 +49,7 @@ def gen_starting_position(output_path, square_size=80):
 
 def main():
     theme = ['classic']
-    generate_pngs(theme, train=int(1e3), valid=int(1e2), verbosity=True)
+    generate_pngs(theme, train=2000, valid=500, verbosity=True)
 
 if __name__ == '__main__':
     main()
