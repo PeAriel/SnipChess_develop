@@ -6,7 +6,6 @@ import cv2
 import torch
 import numpy as np
 from time import time
-import matplotlib.pyplot as plt
 
 labels_dict = {'e': 0,
                'br': 1,
@@ -157,20 +156,9 @@ img = cv2.imread(img_path)
 new_size = 640
 img = cv2.resize(img, (new_size, new_size))
 regions = ss_regions(img)
-# visualize_regions(img, regions)
+visualize_regions(img, regions)
 squares = regions2squares(img, regions, square_size=80)
 
-# while True:
-#     # create a copy of original image
-#     imOut = squares[5].copy()
-#     cv2.imshow("Output", imOut)
-#     k = cv2.waitKey(0) & 0xFF
-#     if k == 113:
-#         break
-# cv2.destroyAllWindows()
-
-
-# TODO verify that the values in each square actually represent the square in the image.
 
 pred_board = [['' for _ in range(8)] for _ in range(8)]
 idx = 0
