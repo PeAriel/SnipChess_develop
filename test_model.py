@@ -7,20 +7,7 @@ import torch
 import numpy as np
 from time import time
 
-labels_dict = {'e': 0,
-               'br': 1,
-               'bb': 2,
-               'bn': 3,
-               'bq': 4,
-               'bk': 5,
-               'bp': 6,
-               'wr': 7,
-               'wb': 8,
-               'wn': 9,
-               'wq': 10,
-               'wk': 11,
-               'wp': 12}
-labels_list = [k for k,v in labels_dict.items()]
+
 
 def ss_regions(cvimage, method='f', verbosity=True):
 
@@ -145,31 +132,49 @@ def regions2squares(cvimage, regions, square_size=80):
 
     return squares
 
-MODEL_PATH = os.getcwd() + '/trained_model.pt'
-model = ChessConvNet()
-model.load_state_dict(torch.load(MODEL_PATH), strict=False)
-model.eval()
+def main():
+    LABELS_DICT = {'e': 0,
+                   'br': 1,
+                   'bb': 2,
+                   'bn': 3,
+                   'bq': 4,
+                   'bk': 5,
+                   'bp': 6,
+                   'wr': 7,
+                   'wb': 8,
+                   'wn': 9,
+                   'wq': 10,
+                   'wk': 11,
+                   'wp': 12}
+    LABELS_LIST = [k for k,v in LABELS_DICT.items()]
+    MODEL_PATH = os.getcwd() + '/trained_model.pt'
+    model = ChessConvNet()
+    model.load_state_dict(torch.load(MODEL_PATH), strict=False)
+    model.eval()
 
-img_path = sys.argv[1]
-img = cv2.imread(img_path)
+    img_path = sys.argv[1]
+    img = cv2.imread(img_path)
 
-new_size = 640
-img = cv2.resize(img, (new_size, new_size))
-regions = ss_regions(img)
-visualize_regions(img, regions)
-squares = regions2squares(img, regions, square_size=80)
+    new_size = 640
+    img = cv2.resize(img, (new_size, new_size))
+    regions = ss_regions(img)
+    visualize_regions(img, regions)
+    squares = regions2squares(img, regions, square_size=80)
 
 
-pred_board = [['' for _ in range(8)] for _ in range(8)]
-idx = 0
-for i in range(8):
-    for j in range(8):
-        square = np.stack((squares[idx], ) * 3, axis=0)
-        prediction = model(torch.FloatTensor(square).unsqueeze(0))
-        pred_board[i][j] = labels_list[torch.argmax(prediction, dim=1)]
-        idx += 1
+    pred_board = [['' for _ in range(8)] for _ in range(8)]
+    idx = 0
+    for i in range(8):
+        for j in range(8):
+            square = np.stack((squares[idx], ) * 3, axis=0)
+            prediction = model(torch.FloatTensor(square).unsqueeze(0))
+            pred_board[i][j] = LABELS_LIST[torch.argmax(prediction, dim=1)]
+            idx += 1
 
-print('\n\nPredicted board:')
-print('------------------------')
-for file in pred_board:
-    print('\t'.join(file))
+    print('\n\nPredicted board:')
+    print('------------------------')
+    for file in pred_board:
+        print('\t'.join(file))
+
+if __name__ == '__main__':
+    main()
