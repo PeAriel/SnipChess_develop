@@ -147,7 +147,7 @@ def main():
                    'wk': 11,
                    'wp': 12}
     LABELS_LIST = [k for k,v in LABELS_DICT.items()]
-    MODEL_PATH = os.getcwd() + '/trained_model.pt'
+    MODEL_PATH = os.getcwd() + '/parameters/trained_model.pt'
     model = ChessConvNet()
     model.load_state_dict(torch.load(MODEL_PATH), strict=False)
     model.eval()
