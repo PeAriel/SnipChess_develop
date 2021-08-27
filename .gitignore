@@ -11,6 +11,11 @@ resources/validation_dataset
 .DS_Store
 resources/.DS_Store
 
+# Generated files
+figures/
+lists/
+parameters/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
