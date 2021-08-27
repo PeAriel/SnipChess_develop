@@ -105,7 +105,7 @@ def main():
     epochs = 50
     fig, axs = plt.subplots(1, 2, figsize=(8, 3))
 
-
+    os.system('echo Entering main loop (over epochs)\n')
     for epoch in range(epochs):
         end_time = time()
         if epoch > 0:
