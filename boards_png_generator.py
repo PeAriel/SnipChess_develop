@@ -24,18 +24,18 @@ def generate_pngs(themes, train=None, valid=None, square_size=80, verbosity=Fals
 
     for theme in themes:
         if train:
-            random_lines_train = random_ints_list(num_lines, train)
+            random_lines_train = random_ints_list(num_lines, train // len(themes))
             if verbosity:
-                random_lines_train = tqdm(random_lines_train, desc='Training images completed: ')
+                random_lines_train = tqdm(random_lines_train, desc='Training images completed of theme {}'.format(theme))
             for line in random_lines_train:
                 fen = file_lines[line].split()[0]
                 board = DrawBoard(fen, theme, square_size)
                 output_path = os.getcwd() + '/resources/training_dataset/{}'.format('S'.join(fen.split('/')))
                 board.save_board(output_path)
         if valid:
-            random_lines_valid = random_ints_list(num_lines, valid)
+            random_lines_valid = random_ints_list(num_lines, valid // len(themes))
             if verbosity:
-                random_lines_valid = tqdm(random_lines_valid, desc='Validation images completed: ')
+                random_lines_valid = tqdm(random_lines_valid, desc='Validation images completed of theme {}'.format(theme))
             for line in random_lines_valid:
                 fen = file_lines[line].split()[0]
                 board = DrawBoard(fen, theme, square_size)
@@ -48,7 +48,7 @@ def gen_starting_position(output_path, square_size=80):
 
 
 def main():
-    theme = ['classic']
+    theme = ['classic', 'bases', 'blues', 'book']
     generate_pngs(theme, train=2000, valid=500, verbosity=True)
 
 if __name__ == '__main__':
