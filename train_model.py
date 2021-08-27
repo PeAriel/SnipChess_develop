@@ -51,6 +51,10 @@ def main():
     validation_dataloader = DataLoader(validation_dataset, batch_size=20)
 
     net = ChessConvNet()
+    try:
+        net.load_state_dict(torch.load('trained_model.pt'), strict=False)
+    except:
+        FileNotFoundError
     loss_function = CrossEntropyLoss()
     optimizer = Adam(net.parameters(), lr=0.0001)
 
@@ -61,7 +65,7 @@ def main():
     if torch.cuda.is_available():
         net.cuda()
 
-    n_epochs = 100
+    n_epochs = 50
     training_loss_vs_epoch = []
     validation_loss_vs_epoch = []
     training_acc_vs_epoch = []
