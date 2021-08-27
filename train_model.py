@@ -9,7 +9,6 @@ from torch.optim import Adam
 import os
 import pickle
 from time import time
-from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 
