@@ -110,12 +110,12 @@ def main():
         end_time = time()
         if epoch > 0:
             time_per_epoch = end_time - start_time
+            os.system('echo ================================================')
             os.system('echo Time for epoch %d: %.f minutes' %(epoch - 1, time_per_epoch / 60))
             os.system('echo validation accuracy: %.4f' % validation_acc_vs_epoch[-1])
             os.system('echo training accuracy: %.4f' % training_acc_vs_epoch[-1])
             os.system('echo validation loss: %.4f' % validation_loss_vs_epoch[-1])
             os.system('echo training loss: %.4f' % training_loss_vs_epoch[-1])
-            os.system('echo ================================================')
         start_time = time()
         net.train()
         for data, target in training_dataloader:
