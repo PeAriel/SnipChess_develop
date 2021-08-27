@@ -105,16 +105,16 @@ def main():
     epochs = 50
     fig, axs = plt.subplots(1, 2, figsize=(8, 3))
 
-    os.system('echo Entering main loop (over epochs)\n')
+    os.system('echo Entering main loop')
     for epoch in range(epochs):
         end_time = time()
         if epoch > 0:
             time_per_epoch = end_time - start_time
-            os.system('echo Time for epoch %d: %.1f minutes' %(epoch - 1, time_per_epoch / 60))
-            os.system('echo validation accuracy: %.2f' % validation_acc_vs_epoch[-1])
-            os.system('echo training accuracy: %.2f' % training_acc_vs_epoch[-1])
-            os.system('echo validation loss: %.2f' % validation_loss_vs_epoch[-1])
-            os.system('echo training loss: %.2f' % training_loss_vs_epoch[-1])
+            os.system('echo Time for epoch %d: %.f minutes' %(epoch - 1, time_per_epoch / 60))
+            os.system('echo validation accuracy: %.4f' % validation_acc_vs_epoch[-1])
+            os.system('echo training accuracy: %.4f' % training_acc_vs_epoch[-1])
+            os.system('echo validation loss: %.4f' % validation_loss_vs_epoch[-1])
+            os.system('echo training loss: %.4f' % training_loss_vs_epoch[-1])
             os.system('echo ================================================')
         start_time = time()
         net.train()
