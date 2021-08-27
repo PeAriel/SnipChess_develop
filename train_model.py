@@ -7,6 +7,8 @@ from torch.nn import CrossEntropyLoss
 from torch.optim import Adam
 
 import os
+import pickle
+from time import time
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 
@@ -37,8 +39,26 @@ def compute_accuracy_and_loss(loss_func, dataloader, net):
 
     return accuracy, loss
 
-def main():
+def savetfigs(fig, axs,
+              training_loss_vs_epoch, validation_loss_vs_epoch,
+              training_acc_vs_epoch, validation_acc_vs_epoch):
+    axs[0].clear()
+    axs[1].clear()
+    axs[0].plot(training_loss_vs_epoch, label='training')
+    axs[0].plot(validation_loss_vs_epoch, label='validation')
+    axs[0].legend(loc='upper right')
+    axs[0].set_title('Loss vs epoch')
+    axs[1].plot(training_acc_vs_epoch, label='training')
+    axs[1].plot(validation_acc_vs_epoch, label='validation')
+    axs[1].legend(loc='upper left')
+    axs[1].set_title('Accuracy vs epoch')
+    fig.savefig(os.getcwd() + '/figures/loss_curve_classifier.png', dpi=500)
 
+def main():
+    if not os.path.isdir('figures'):
+        os.system('mkdir figures')
+    if not os.path.isdir('parameters'):
+        os.system('mkdir parameters')
     if torch.cuda.is_available():
         os.system('echo Running on GPU.\n')
     path_to_training_data = os.getcwd() + '/resources/training_dataset/pieces'
@@ -51,34 +71,53 @@ def main():
     validation_dataloader = DataLoader(validation_dataset, batch_size=20)
 
     net = ChessConvNet()
+
     try:
-        net.load_state_dict(torch.load('trained_model.pt'), strict=False)
-    except:
-        FileNotFoundError
+        net.load_state_dict(torch.load('parameters/trained_model.pt'), strict=False)
+        os.system('echo Parameters were loaded successfully!')
+    except FileNotFoundError:
+        pass
+
     loss_function = CrossEntropyLoss()
     optimizer = Adam(net.parameters(), lr=0.0001)
-
-    if 'trained_model.pt' in os.listdir():
-        net.load_state_dict(torch.load('trained_model.pt'), strict=False)
-        print('Parameters were loaded successfully!')
 
     if torch.cuda.is_available():
         net.cuda()
 
-    n_epochs = 50
-    training_loss_vs_epoch = []
-    validation_loss_vs_epoch = []
-    training_acc_vs_epoch = []
-    validation_acc_vs_epoch = []
-    pbar = tqdm(range(n_epochs))
+    if not os.path.isdir('lists'):
+        os.system('mkdir lists')
+    if os.path.isfile('lists/tlve.pickle'):
+        os.system('echo Plotting lists were found in folder')
+        with open('lists/tlve.pickle', 'rb') as fp:
+            training_loss_vs_epoch = pickle.load(fp)
+        with open('lists/tave.pickle', 'rb') as fp:
+            training_acc_vs_epoch = pickle.load(fp)
+        with open('lists/vave.pickle', 'rb') as fp:
+            validation_acc_vs_epoch = pickle.load(fp)
+        with open('lists/vlve.pickle', 'rb') as fp:
+            validation_loss_vs_epoch = pickle.load(fp)
+        os.system('echo Plotting lists were loaded successfully!')
+    else:
+        training_loss_vs_epoch = []
+        validation_loss_vs_epoch = []
+        training_acc_vs_epoch = []
+        validation_acc_vs_epoch = []
 
-    for epoch in pbar:
-        if len(validation_loss_vs_epoch) > 1:
-            pbar.set_description('val acc:' + '{0:.2f}'.format(validation_acc_vs_epoch[-1]) +
-                                 ', train acc:' + '{0:.2f}'.format(training_acc_vs_epoch[-1]) +
-                                ', val loss:' + '{0:.2f}'.format(validation_loss_vs_epoch[-1]) +
-                                ', train loss:' + '{0:.2f}'.format(training_loss_vs_epoch[-1]))
+    epochs = 50
+    fig, axs = plt.subplots(1, 2, figsize=(8, 3))
 
+
+    for epoch in range(epochs):
+        end_time = time()
+        if epoch > 0:
+            time_per_epoch = end_time - start_time
+            os.system('echo Time for epoch %d: %.1f minutes' %(epoch - 1, time_per_epoch / 60))
+            os.system('echo validation accuracy: %.2f' % validation_acc_vs_epoch[-1])
+            os.system('echo training accuracy: %.2f' % training_acc_vs_epoch[-1])
+            os.system('echo validation loss: %.2f' % validation_loss_vs_epoch[-1])
+            os.system('echo training loss: %.2f' % training_loss_vs_epoch[-1])
+            os.system('echo ================================================')
+        start_time = time()
         net.train()
         for data, target in training_dataloader:
             optimizer.zero_grad()
@@ -96,23 +135,20 @@ def main():
         validation_acc_vs_epoch.append(validation_accuracy)
         validation_loss_vs_epoch.append(validation_loss)
 
+        for key, val in {'lists/tlve.pickle': training_loss_vs_epoch,
+                         'lists/tave.pickle': training_acc_vs_epoch,
+                         'lists/vave.pickle': validation_acc_vs_epoch,
+                         'lists/vlve.pickle': validation_loss_vs_epoch}.items():
+            with open(key, 'wb') as fp:
+                pickle.dump(val, fp)
+
         if len(validation_loss_vs_epoch) > 1:
             if validation_loss_vs_epoch[-1] < min(validation_loss_vs_epoch[:-1]):
-                torch.save(net.state_dict(), 'trained_model.pt')
+                torch.save(net.state_dict(), 'parameters/trained_model.pt')
 
-    fig, ax = plt.subplots(1, 2, figsize=(8, 3))
-
-    ax[0].plot(training_loss_vs_epoch, label='training')
-    ax[0].plot(validation_loss_vs_epoch, label='validation')
-    ax[0].legend(loc='upper right')
-    ax[0].set_title('Loss vs epoch')
-    ax[1].plot(training_acc_vs_epoch, label='training')
-    ax[1].plot(validation_acc_vs_epoch, label='validation')
-    ax[1].legend(loc='upper left')
-    ax[1].set_title('Accuracy vs epoch')
-
-    plt.savefig(os.getcwd() + '/loss_curve_classifier.png', dpi=500)
-    plt.show()
+        savetfigs(fig, axs,
+                  training_loss_vs_epoch, validation_loss_vs_epoch,
+                  training_acc_vs_epoch, validation_acc_vs_epoch)
 
 if __name__ == '__main__':
     main()
