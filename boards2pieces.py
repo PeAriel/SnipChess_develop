@@ -70,8 +70,8 @@ def board2peices(path, reduce=None, sft=20):
 def main():
     training_path = os.getcwd() + '/resources/training_dataset'
     validation_path = os.getcwd() + '/resources/validation_dataset'
-    board2peices(training_path, reduce=5)
-    board2peices(validation_path, reduce=10)
+    board2peices(training_path, reduce=3)
+    board2peices(validation_path, reduce=4)
 
 
 
