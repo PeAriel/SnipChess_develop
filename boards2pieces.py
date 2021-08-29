@@ -6,7 +6,7 @@ from fen2png import PIECES_DICT, is_int
 from tqdm import tqdm
 
 
-def extand_name(fen_list):
+def extend_name(fen_list):
     """
     extends a fen name to be 8 characters long for each row, for easy counting.
     :param fen_list: list of strings where each string represents a rank position
