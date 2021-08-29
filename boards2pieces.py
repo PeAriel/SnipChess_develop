@@ -39,7 +39,7 @@ def board2peices(path, reduce=None, sft=20):
         count_dict = {'e': 0, 'bp': 0, 'wp': 0}
         if board[0] == '.' or board == 'pieces':
             continue
-        name = extand_name(board.split('.')[0].split('S'))
+        name = extend_name(board.split('.')[0].split('S'))
         img = cv2.imread(path + '/' + board)
         board_length = len(img[:, :, 0])
         square_size = board_length // 8
