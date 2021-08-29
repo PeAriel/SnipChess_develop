@@ -48,8 +48,8 @@ def gen_starting_position(output_path, square_size=80):
 
 
 def main():
-    theme = ['classic', 'bases', 'blues', 'book']
-    generate_pngs(theme, train=2000, valid=500, verbosity=True)
+    theme = ['bases', 'blues', 'book', 'book2', 'brown', 'classic', 'bubble_gum', 'cosmos']
+    generate_pngs(theme, train=10000, valid=2000, verbosity=True)
 
 if __name__ == '__main__':
     main()
