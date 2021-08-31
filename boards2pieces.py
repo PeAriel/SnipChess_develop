@@ -46,6 +46,7 @@ def board2peices(path, reduce=None, sft=20):
         for i in range(8):
             for j in range(8):
                 shift = randint(0, sft)  # random global shift for the square
+                if square_size < 80: shift = 0  # no shift for small images!
                 randx = randint(0, 1)  # random indicator when x is shifted
                 randy = randint(0, 1)  # random indicator when y is shifted
                 xi = square_size * j + shift * randx
@@ -56,6 +57,9 @@ def board2peices(path, reduce=None, sft=20):
                 y = np.array([s for s in range(yi, yf)]) % board_length  # periodic boundary conditions for the shift
                 piece_img = img[np.ix_(y, x)]
                 piece_img = cv2.cvtColor(piece_img, cv2.COLOR_BGR2GRAY)  # convert to gray scale
+
+                if piece_img.shape[1] < 80:
+                    piece_img = cv2.resize(piece_img, (80, 80))
 
                 piece_name = PIECES_DICT.get(name[i][j])
                 if reduce:
