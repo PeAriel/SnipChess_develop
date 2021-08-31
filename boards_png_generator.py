@@ -16,7 +16,7 @@ def generate_pngs(themes, train=None, valid=None, square_size=80, verbosity=Fals
     if type(themes) is str:
         themes = [themes]
 
-    with open(FENS + 'unique00.fen', 'r') as f:
+    with open(FENS + 'smaller_fen.fen', 'r') as f:
         print('Starting to read fen file.')
         file_lines = f.read().splitlines()
         print('Finished reading fen file.')
@@ -48,8 +48,17 @@ def gen_starting_position(output_path, square_size=80):
 
 
 def main():
-    theme = ['bases', 'blues', 'book', 'book2', 'brown', 'classic', 'bubble_gum', 'cosmos']
-    generate_pngs(theme, train=10000, valid=2000, verbosity=True)
+    # glass is confusing!
+    # theme = ['bases', 'blues', 'book', 'book2',
+    #          'brown', 'classic', 'bubble_gum', 'cosmos',
+    #          'dash', 'game_room', 'light', 'lolz',
+    #          'tournament', 'opra', 'lichess',
+    #          'icy_sea', 'sky', 'walnut', 'gothic',
+    #          'standard', 'nature', '8bit']
+    theme = ['icy_sea']
+    generate_pngs(theme, train=10, valid=2, verbosity=True)
+    # small square size will be inflated so it pixelized. Need to generate some of those
+    generate_pngs(theme, train=10, valid=2, verbosity=True, square_size=20)
 
 if __name__ == '__main__':
     main()
