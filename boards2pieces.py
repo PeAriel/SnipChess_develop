@@ -22,7 +22,7 @@ def extend_name(fen_list):
             jdx += 1
     return fen_list
 
-def board2peices(path, reduce=None, sft=20):
+def board2peices(path, fixed_size=80, reduce=None, sft=20, grayscale=True):
     PIECES_DICT['e'] = 'e'
     """
     given the *absolute* path to the folder containing the boards, this function writes
@@ -56,10 +56,11 @@ def board2peices(path, reduce=None, sft=20):
                 x = np.array([s for s in range(xi, xf)]) % board_length  # periodic boundary conditions for the shift
                 y = np.array([s for s in range(yi, yf)]) % board_length  # periodic boundary conditions for the shift
                 piece_img = img[np.ix_(y, x)]
-                piece_img = cv2.cvtColor(piece_img, cv2.COLOR_BGR2GRAY)  # convert to gray scale
+                if grayscale:
+                    piece_img = cv2.cvtColor(piece_img, cv2.COLOR_BGR2GRAY)  # convert to gray scale
 
-                if piece_img.shape[1] < 80:
-                    piece_img = cv2.resize(piece_img, (80, 80))
+                if piece_img.shape[1] < fixed_size:
+                    piece_img = cv2.resize(piece_img, (fixed_size, fixed_size))
 
                 piece_name = PIECES_DICT.get(name[i][j])
                 if reduce:
@@ -74,7 +75,7 @@ def board2peices(path, reduce=None, sft=20):
 def main():
     training_path = os.getcwd() + '/resources/training_dataset'
     validation_path = os.getcwd() + '/resources/validation_dataset'
-    board2peices(training_path, reduce=3)
+    board2peices(training_path, reduce=3, grayscale=True)
     board2peices(validation_path, reduce=4)
 
 
