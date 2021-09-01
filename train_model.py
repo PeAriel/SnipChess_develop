@@ -7,6 +7,7 @@ from torch.nn import CrossEntropyLoss
 from torch.optim import Adam
 
 import os
+import argparse
 import pickle
 from time import time
 import matplotlib.pyplot as plt
@@ -54,6 +55,31 @@ def savetfigs(fig, axs,
     fig.savefig(os.getcwd() + '/figures/loss_curve_classifier.png', dpi=500)
 
 def main():
+    parser = argparse.ArgumentParser(description='Train model')
+    parser.add_argument('-e', '--epochs',
+                        dest='epochs',
+                        type=int,
+                        required=False,
+                        help='Number of epochs.')
+    parser.add_argument('-l', '--learning-rate',
+                        dest='learn',
+                        type=float,
+                        required=False,
+                        help='Learning rate.')
+    args = parser.parse_args()
+    if not args.epochs:
+        epochs = 50
+        os.system('echo Number of epochs set to default: %d' % epochs)
+    else:
+        epochs = args.epochs
+        os.system('echo Number of epochs set to: %d' % epochs)
+    if not args.learn:
+        learn = 1e-4
+        os.system('echo Learning rate set to default: {}'.format(learn))
+    else:
+        learn = args.learn
+        os.system('echo Learning rate to: {}'.format(learn))
+
     if not os.path.isdir('figures'):
         os.system('mkdir figures')
     if not os.path.isdir('parameters'):
@@ -78,7 +104,7 @@ def main():
         pass
 
     loss_function = CrossEntropyLoss()
-    optimizer = Adam(net.parameters(), lr=0.0001)
+    optimizer = Adam(net.parameters(), lr=learn)
 
     if torch.cuda.is_available():
         net.cuda()
@@ -102,7 +128,6 @@ def main():
         training_acc_vs_epoch = []
         validation_acc_vs_epoch = []
 
-    epochs = 50
     fig, axs = plt.subplots(1, 2, figsize=(8, 3))
 
     os.system('echo Entering main loop')
