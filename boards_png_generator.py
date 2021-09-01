@@ -49,16 +49,17 @@ def gen_starting_position(output_path, square_size=80):
 
 def main():
     # glass is confusing!
-    # theme = ['bases', 'blues', 'book', 'book2',
-    #          'brown', 'classic', 'bubble_gum', 'cosmos',
-    #          'dash', 'game_room', 'light', 'lolz',
-    #          'tournament', 'opra', 'lichess',
-    #          'icy_sea', 'sky', 'walnut', 'gothic',
-    #          'standard', 'nature', '8bit']
-    theme = ['icy_sea']
-    generate_pngs(theme, train=10, valid=2, verbosity=True)
+    theme = ['bases', 'blues', 'book', 'book2',
+             'brown', 'classic', 'bubble_gum', 'cosmos',
+             'dash', 'game_room', 'light', 'lolz',
+             'tournament', 'opra', 'lichess',
+             'icy_sea', 'sky', 'walnut', 'gothic',
+             'standard', 'nature', '8bit']
+    # theme = ['icy_sea']
+    generate_pngs(theme, train=200, valid=50, verbosity=True)
     # small square size will be inflated so it pixelized. Need to generate some of those
-    generate_pngs(theme, train=10, valid=2, verbosity=True, square_size=20)
+    generate_pngs(theme, train=200, valid=50, verbosity=True, square_size=50)
+    generate_pngs(theme, train=200, valid=50, verbosity=True, square_size=30)
 
 if __name__ == '__main__':
     main()
