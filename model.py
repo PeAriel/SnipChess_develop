@@ -2,9 +2,10 @@ from torch.nn import Conv2d, ReLU, MaxPool2d, Linear, Module, Sequential
 from torch import flatten
 
 class ChessConvNet(Module):
-    def __init__(self):
+    def __init__(self, square_size=80, out_channels=10):
         super(ChessConvNet, self).__init__()
         self.in_channels = 3
+        self.out_channels = out_channels
         self.out_vector_length = 13
 
         self.relu = ReLU(inplace=True)
@@ -15,9 +16,10 @@ class ChessConvNet(Module):
         self.conv2 = Conv2d(10, 20, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
         self.conv3 = Conv2d(20, 20, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
         self.conv4 = Conv2d(20, 10, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-        self.conv5 = Conv2d(10, 10, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        self.conv5 = Conv2d(10, self.out_channels, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
 
-        self.linear1 = Linear(in_features=4000, out_features=500, bias=True)
+        infeatures = int(self.out_channels * (square_size / 4) ** 2)
+        self.linear1 = Linear(in_features=infeatures, out_features=500, bias=True)
         self.linear2 = Linear(in_features=500, out_features=500, bias=True)
         self.linear3 = Linear(in_features=500, out_features=13, bias=True)
 
