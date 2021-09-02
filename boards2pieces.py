@@ -22,7 +22,7 @@ def extend_name(fen_list):
             jdx += 1
     return fen_list
 
-def board2peices(path, fixed_size=80, reduce=None, sft=20, grayscale=True):
+def board2peices(path, fixed_size=80, reduce=None, sft=15, grayscale=True):
     PIECES_DICT['e'] = 'e'
     """
     given the *absolute* path to the folder containing the boards, this function writes
