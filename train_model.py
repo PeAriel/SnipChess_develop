@@ -68,7 +68,7 @@ def main():
                         help='Learning rate.')
     args = parser.parse_args()
     if not args.epochs:
-        epochs = 50
+        epochs = 100
         os.system('echo Number of epochs set to default: %d' % epochs)
     else:
         epochs = args.epochs
