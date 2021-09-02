@@ -155,3 +155,4 @@ resources/bad_images/book3.png
 resources/bad_images/Hikaru.png
 resources/bad_images/JohnBar.png
 resources/dataset.tar
+*.gz
