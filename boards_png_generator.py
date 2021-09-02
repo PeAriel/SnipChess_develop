@@ -54,12 +54,12 @@ def main():
              'dash', 'game_room', 'light', 'lolz',
              'tournament', 'opra', 'lichess',
              'icy_sea', 'sky', 'walnut', 'gothic',
-             'standard', 'nature', '8bit']
+             'standard', 'nature']
     # theme = ['icy_sea']
-    generate_pngs(theme, train=200, valid=50, verbosity=True)
+    generate_pngs(theme, train=15000, valid=3000, verbosity=True)
     # small square size will be inflated so it pixelized. Need to generate some of those
-    generate_pngs(theme, train=200, valid=50, verbosity=True, square_size=50)
-    generate_pngs(theme, train=200, valid=50, verbosity=True, square_size=30)
+    generate_pngs(theme, train=2500, valid=500, verbosity=True, square_size=50)
+    generate_pngs(theme, train=2500, valid=500, verbosity=True, square_size=30)
 
 if __name__ == '__main__':
     main()
