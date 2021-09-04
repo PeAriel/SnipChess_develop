@@ -49,17 +49,23 @@ def gen_starting_position(output_path, square_size=80):
 
 def main():
     # glass is confusing!
-    theme = ['bases', 'blues', 'book', 'book2',
-             'brown', 'classic', 'bubble_gum', 'cosmos',
-             'dash', 'game_room', 'light', 'lolz',
-             'tournament', 'opra', 'lichess',
-             'icy_sea', 'sky', 'walnut', 'gothic',
-             'standard', 'nature']
+    std_themes = ['bases', 'blues', 'book', 'brown',
+                  'classic', 'glass', 'icy_sea', 'lichess',
+                  'lolz', 'ocean', 'opra', 'standard',
+                  'walnut', 'wood']
+    wrd_themes = ['book2', 'bubble_gum', 'cosmos', 'dash',
+                  'game_room', 'light', 'lolz', 'tournament',
+                  'lichess', 'sky', 'gothic', 'standard', 'nature']
     # theme = ['icy_sea']
-    generate_pngs(theme, train=15000, valid=3000, verbosity=True)
-    # small square size will be inflated so it pixelized. Need to generate some of those
-    generate_pngs(theme, train=2500, valid=500, verbosity=True, square_size=50)
-    generate_pngs(theme, train=2500, valid=500, verbosity=True, square_size=30)
+    # generate_pngs(std_themes, train=10000, valid=2000, verbosity=True)
+    # generate_pngs(wrd_themes, train=5000, valid=1000, verbosity=True)
+    # # small square size will be inflated so it pixelized. Need to generate some of those
+    # generate_pngs(std_themes, train=1650, valid=330, verbosity=True, square_size=50)
+    # generate_pngs(wrd_themes, train=800, valid=170, verbosity=True, square_size=30)
+    # generate_pngs(std_themes, train=1650, valid=330, verbosity=True, square_size=50)
+    # generate_pngs(wrd_themes, train=800, valid=170, verbosity=True, square_size=30)
+
+    generate_pngs('wood', train=5, valid=0, verbosity=True)
 
 if __name__ == '__main__':
     main()
