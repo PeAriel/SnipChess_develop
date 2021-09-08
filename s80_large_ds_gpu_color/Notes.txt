@@ -1,0 +1,13 @@
+Currently the best model and parameters! It works (almost) perfectly if the snippet is tight.
+
+Was generated using:
+    generate_pngs(theme, train=200, valid=50, verbosity=True)
+    generate_pngs(theme, train=15000, valid=3000, verbosity=True)
+    # small square size will be inflated so it pixelized. Need to generate some of those
+    generate_pngs(theme, train=200, valid=50, verbosity=True, square_size=50)
+    generate_pngs(theme, train=200, valid=50, verbosity=True, square_size=30)
+    generate_pngs(theme, train=2500, valid=500, verbosity=True, square_size=50)
+    generate_pngs(theme, train=2500, valid=500, verbosity=True, square_size=30)
+
+The problen is that the shift in the pieces is only in one direction (positive).
+This model can be improved by fixing this issue alone!
