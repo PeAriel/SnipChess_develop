@@ -122,13 +122,13 @@ def visualize_regions(cvimage, regions):
     cv2.destroyAllWindows()
 
 def regions2squares(cvimage, regions, square_size=80):
-    cvimage = cv2.cvtColor(cvimage, cv2.COLOR_BGR2GRAY)
+    # cvimage = cv2.cvtColor(cvimage, cv2.COLOR_BGR2GRAY)
 
-    squares = np.zeros([64, square_size, square_size], dtype=np.uint8)
+    squares = np.zeros([64, square_size, square_size, 3], dtype=np.uint8)
     for i in range(64):
         imOut = cvimage.copy()
         x, y, w, h = regions[i]
-        squares[i, :, :] = cv2.resize(imOut[y:y+w, x:x+w], (square_size, square_size))
+        squares[i, :, :] = cv2.resize(imOut[y:y+w, x:x+w, :], (square_size, square_size))
 
     return squares
 
@@ -147,13 +147,13 @@ def main():
                    'wk': 11,
                    'wp': 12}
     LABELS_LIST = [k for k,v in LABELS_DICT.items()]
-    MODEL_PATH = os.getcwd() + '/parameters/trained_model_gpu80.pt'
+    MODEL_PATH = os.getcwd() + '/s80_large_ds_gpu_color_goodshift/parameters/trained_model.pt'
     model = ChessConvNet()
     # model.load_state_dict(torch.load(MODEL_PATH), strict=False)
     model.load_state_dict(torch.load(MODEL_PATH, map_location=torch.device('cpu')))
     model.eval()
 
-    img_path = sys.argv[1]
+    img_path = os.getcwd() + '/resources/bad_images/' + sys.argv[1]
     img = cv2.imread(img_path)
 
     new_size = 640
@@ -167,7 +167,8 @@ def main():
     idx = 0
     for i in range(8):
         for j in range(8):
-            square = np.stack((squares[idx], ) * 3, axis=0)
+            # square = np.stack((squares[idx], ) * 3, axis=0)
+            square = np.moveaxis(squares[idx], -1, 0)
             prediction = model(torch.FloatTensor(square).unsqueeze(0))
             pred_board[i][j] = LABELS_LIST[torch.argmax(prediction, dim=1)]
             idx += 1
