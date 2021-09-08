@@ -162,6 +162,18 @@ def main():
     visualize_regions(img, regions)
     squares = regions2squares(img, regions, square_size=80)
 
+### uncomment to visualize square
+    # while True:
+    #     imOut = squares[0].copy()
+    #     cv2.imshow("Output", imOut)
+    #
+    #     # record key press
+    #     k = cv2.waitKey(0) & 0xFF
+    #     # q is pressed
+    #     if k == 113:
+    #         break
+    # # close image show window
+    # cv2.destroyAllWindows()
 
     pred_board = [['' for _ in range(8)] for _ in range(8)]
     idx = 0
