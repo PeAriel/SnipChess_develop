@@ -57,7 +57,7 @@ def board2peices(path, fixed_size=80, reduce=None, sft=15, grayscale=True):
                 if grayscale:
                     piece_img = cv2.cvtColor(piece_img, cv2.COLOR_BGR2GRAY)  # convert to gray scale
 
-                if piece_img.shape[1] < fixed_size or piece_img.shape[0] != piece_img.shape[1]:
+                if piece_img.shape[1] < fixed_size or (piece_img.shape[0] != piece_img.shape[1]):
                     piece_img = cv2.resize(piece_img, (fixed_size, fixed_size))
 
                 piece_name = PIECES_DICT.get(name[i][j])
