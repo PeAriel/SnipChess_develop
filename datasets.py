@@ -104,6 +104,8 @@ class PiecesDataset(Dataset):
     def __getitem__(self, idx):
         img_path = self.data_dir + '/' + self.piece_png[idx]
         img = cv2.imread(img_path)
+        if img.shape[0] != 80 or img.shape[1] != 80:
+            img = cv2.resize(img, (80, 80))
 
         x = torch.FloatTensor(np.moveaxis(img, -1, 0))
         y = self.labels[idx]
