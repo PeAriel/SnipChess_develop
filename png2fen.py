@@ -1,3 +1,5 @@
+#!/Library/Frameworks/Python.framework/Versions/3.9/bin/python3
+
 '''
 This should be the main output of the DL part.
 
@@ -185,7 +187,10 @@ def evaluate(img_path, resizing=350, square_vis=None):
 
 
 def main():
-    img_path = os.getcwd() + '/resources/bad_images/oprarapid.png'
+    if len(sys.argv) > 1:
+        img_path = os.getcwd() + '/resources/bad_images/' + sys.argv[1]
+    else:
+        img_path = os.getcwd() + '/resources/bad_images/oprarapid.png'
     fen = evaluate(img_path)
     print(fen)
 
