@@ -16,6 +16,40 @@ figures/
 lists/
 parameters/
 
+# Resources
+Dataset.tar.gz
+resources/8bit/
+resources/brown/
+resources/game_room/
+resources/marble/
+resources/standard/
+resources/bubble_gum/
+resources/glass/
+resources/nature/
+resources/tournament/
+resources/bad_images/
+resources/chess24/
+resources/gothic/
+resources/newspaper/
+resources/walnut/
+resources/bases/
+resources/classic/
+resources/icy_sea/
+resources/ocean/
+resources/wood/
+resources/blues/
+resources/cosmos/
+resources/lichess/
+resources/opra/
+resources/book/
+resources/dash/
+resources/light/
+resources/real_book/
+resources/book2/
+resources/fen_files/
+resources/lolz/
+resources/sky/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
