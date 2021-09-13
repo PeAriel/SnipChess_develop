@@ -35,7 +35,7 @@ LABELS_DICT = {'e': 0,
                'wk': 11,
                'wp': 12}
 LABELS_LIST = [k for k, v in LABELS_DICT.items()]
-MODEL_PATH = os.getcwd() + '/s80_large_ds_gpu_color_goodshift/parameters/trained_model.pt'
+MODEL_PATH = os.getcwd() + '/s80_largeR_ds_gpu_color_goodshift/parameters/trained_model_temp.pt'
 
 
 def ss_regions(cvimage, verbosity=True):
@@ -115,7 +115,11 @@ def visualize_regions(cvimage, regions):
     # close image show window
     cv2.destroyAllWindows()
 
-def regions2squares(cvimage, regions, square_size=80):
+def regions2squares(cvimage, regions, square_size=80, grayscale=True):
+    if grayscale:
+        cvimage = cv2.cvtColor(cvimage, cv2.COLOR_BGR2GRAY)
+        cvimage = np.array([cvimage, cvimage, cvimage])
+        cvimage = np.moveaxis(cvimage, 0, -1)
 
     squares = np.zeros([64, square_size, square_size, 3], dtype=np.uint8)
     for i in range(64):
