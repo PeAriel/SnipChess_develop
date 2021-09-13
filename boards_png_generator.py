@@ -48,17 +48,17 @@ def gen_starting_position(output_path, square_size=80):
 
 
 def main():
-    theme = ['bases', 'blues', 'book', 'book2',
+    themes = ['bases', 'blues', 'book', 'book2',
              'brown', 'classic', 'bubble_gum', 'cosmos',
              'dash', 'game_room', 'light', 'lolz',
              'tournament', 'opra', 'lichess',
              'icy_sea', 'sky', 'walnut', 'gothic',
-             'standard', 'nature', 'wood', 'newspaper', 'ocean']
+             'standard', 'nature', 'wood', 'newspaper', 'ocean', 'real_book']
 
-    generate_pngs(theme, train=15000, valid=3000, verbosity=True)
+    generate_pngs(themes, train=15000, valid=3000, verbosity=True)
     # small square size will be inflated so it pixelized. Need to generate some of those
-    generate_pngs(theme, train=2500, valid=500, verbosity=True, square_size=50)
-    generate_pngs(theme, train=2500, valid=500, verbosity=True, square_size=30)
+    generate_pngs(themes, train=2500, valid=500, verbosity=True, square_size=50)
+    generate_pngs(themes, train=2500, valid=500, verbosity=True, square_size=30)
 
 
 if __name__ == '__main__':
